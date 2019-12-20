@@ -1,0 +1,20 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+
+steps:
+  - name: tests
+    image: "golang:1.13"
+    environment:
+      GO111MODULE: on 
+      GOPROXY: "https://proxy.golang.org"
+    commands:
+      - 'make deps'
+      - 'make pretest'
+      - 'make coverage'
+    when:
+      event:
+        - pull_request
+        - push
